@@ -10,12 +10,14 @@ if [ "$challenge" = "$sig" ]; then
     if [ "$1" = "" ]; then
         echo "No SSH key detected, attempting public checkout"
         git submodule update --init --recursive
+        git submodule update --remote --merge
     else
         echo "SSH key detected, attempting private checkout"
         echo "$1" > /root/.ssh/ssh.key
         chmod 600 /root/.ssh/ssh.key
         export GIT_SSH_COMMAND="ssh -i /root/.ssh/ssh.key"
         git submodule update --init --recursive
+        git submodule update --remote --merge
     fi;
 else
     echo "Signature validation failed!"
